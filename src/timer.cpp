@@ -7,6 +7,7 @@ namespace toy {
 Timer::Timer()
 	: _elapsed(0.0)
 	, _delta(0.0)
+	, _paused(false)
 {
 	LARGE_INTEGER freq;
 	::QueryPerformanceFrequency(&freq);
@@ -22,8 +23,17 @@ void Timer::tick() {
 
 	_time = counter.QuadPart;
 	_delta = (_time - _prev_time) / _frequency;
-	_elapsed += _delta;
+	if (!_paused)
+		_elapsed += _delta;
 	_prev_time = _time;
+}
+
+void Timer::toggle() {
+	_paused = !_paused;
+}
+
+void Timer::reset() {
+	_elapsed = 0.0;
 }
 
 double Timer::delta() const {

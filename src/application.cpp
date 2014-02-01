@@ -190,6 +190,12 @@ void Application::handle_keypress(const unsigned key_code) {
 		case VK_F5:
 			reload();
 			break;
+		case VK_SPACE:
+			_timer.toggle();
+			break;
+		case VK_BACK:
+			_timer.reset();
+			break;
 	}
 }
 
