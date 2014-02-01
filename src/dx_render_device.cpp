@@ -1,6 +1,7 @@
 #include "dx_render_device.h"
 
 #include "window.h"
+#include "console.h"
 
 #include <cassert>
 
@@ -289,14 +290,16 @@ unsigned DXRenderDevice::create_pixel_shader(const char* const code, const size_
 	return _n_pixel_shaders - 1;
 }
 
-void DXRenderDevice::update_pixel_shader(const unsigned shader, const char* const code, const size_t length) {
+bool DXRenderDevice::update_pixel_shader(const unsigned shader, const char* const code, const size_t length) {
 	assert(shader < _n_pixel_shaders);
 	assert(code != nullptr);
 	assert(length > 0);
 
 	if (!compile_pixel_shader(code, length, _pixel_shaders[shader])) {
 		// TODO: report errors somehow
+		return false;
 	}
+	return true;
 }
 
 bool DXRenderDevice::compile_pixel_shader(const char* const code, const size_t length, ComPtr<ID3D11PixelShader>& destination) {
@@ -306,7 +309,7 @@ bool DXRenderDevice::compile_pixel_shader(const char* const code, const size_t l
 	if (FAILED(hr)) {
 		// TODO: remove this crap
 		const char* const msg = static_cast<char*>(error_blob->GetBufferPointer());
-		::MessageBoxA(0, msg, "PS compilation error", MB_ICONASTERISK);
+		Console::printf("Compilation error: %s", msg);
 		return false;
 	}
 

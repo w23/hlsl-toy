@@ -5,6 +5,7 @@
 #include "math/float2.h"
 #include "math/float3.h"
 #include "math/float4.h"
+#include "console.h"
 
 #include <cmath>
 #include <ctime>
@@ -148,6 +149,8 @@ bool Application::work() {
 
 void Application::update() {
 	_timer.tick();
+	if (_valid)
+		Console::printf("frame_time_ms: %f", _timer.delta() * 1000.);
 	_main_window.update();
 	if (_toy_monitor.changed()) {
 		reload();
@@ -240,7 +243,7 @@ void Application::reload() {
 		// TODO: report errors
 		return;
 	}
-	_render_device.update_pixel_shader(_triangles.ps, _toy.code(), _toy.code_length());
+	_valid = _render_device.update_pixel_shader(_triangles.ps, _toy.code(), _toy.code_length());
 
 	const unsigned n_toy_textures = _toy.n_textures();
 	const unsigned n_updated_textures = std::min(n_toy_textures, _triangles.n_textures);

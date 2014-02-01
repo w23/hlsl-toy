@@ -59,6 +59,7 @@ private:
 	std::wstring _toy_path;
 
 	DumbFileMonitor _toy_monitor;
+    bool _valid;
 };
 
 } // namespace toy

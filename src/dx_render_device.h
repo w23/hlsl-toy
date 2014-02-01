@@ -64,7 +64,7 @@ public:
 	unsigned create_vertex_shader(const char* const code, const size_t length, const VertexDescription& vertex_description);
 	unsigned create_pixel_shader(const char* const code, const size_t length);
 
-	void update_pixel_shader(const unsigned shader, const char* const code, const size_t length);
+	bool update_pixel_shader(const unsigned shader, const char* const code, const size_t length);
 
 	unsigned create_dst_state(const bool depth_enabled);
 	unsigned create_rasterizer_state();
